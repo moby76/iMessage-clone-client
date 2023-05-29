@@ -6,12 +6,12 @@ import { getMainDefinition } from '@apollo/client/utilities'
 import { createClient } from 'graphql-ws'
 import { getSession } from 'next-auth/react'
 
-
+const URI = process.env.NEXT_PUBLIC_SERVER_URI
 
 //STEP-1 Создать http-ссылку
 const httpLink = new HttpLink({
-    // uri: 'http://localhost:4000/graphql',
-    uri: 'http://localhost:4000/graphql',
+    uri: `http://${URI}/graphql`,
+    // uri: process.env.NEXT_PUBLIC_SERVER_URI,
     credentials: 'include' // получение/отправка запросов из любых источников
 })
 
@@ -25,7 +25,8 @@ const httpLink = new HttpLink({
 //STEP-2 Создать webSocket-ссылку
 //перед созданием webSocket-ссылки в среде Next.js сначала нужно убедиться что окно браузера активно( typeof window !== 'undefined' ) иначе - вернём NULL - ссылка не будет создана
 const wsLink = typeof window !== 'undefined' ? new GraphQLWsLink(createClient({
-  url: 'ws://localhost:4000/graphql/subscriptions',
+  url: `ws://${URI}/graphql/subscriptions`,
+  // url: `ws://${URI}/graphql/subscriptions`,
   //добавить параметры соединения из next-auth/react которые попадают в контекст graphql-ws на сервер при первом подключении с apollo-server
   connectionParams: async () => ({
       session: await getSession()
