@@ -10,7 +10,7 @@ const URI = process.env.NEXT_PUBLIC_SERVER_URI
 
 //STEP-1 Создать http-ссылку
 const httpLink = new HttpLink({
-    uri: `http://${URI}/graphql`,
+    uri: `http://${URI}/graphql` || `https://${URI}/graphql`,
     // uri: process.env.NEXT_PUBLIC_SERVER_URI,
     credentials: 'include' // получение/отправка запросов из любых источников
 })
