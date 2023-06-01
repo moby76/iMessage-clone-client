@@ -6,8 +6,8 @@
         "dev": "next dev",
         "build": "next build",
         "start": "next start",
-        "vercel-build": "prisma generate && prisma migrate deploy && next build",
-        "prisma:generate": "prisma generate",
+        "vercel-build": "npx prisma generate && prisma migrate deploy && next build",
+        "prisma:generate": "npx prisma generate",
         "lint": "next lint"
     },
     "prisma": {
