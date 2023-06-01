@@ -8,6 +8,9 @@
         "start": "next start",
         "lint": "next lint"
     },
+    "prisma": {
+        "schema": "./src/prisma/schema.prisma"
+      },
     "dependencies": {
         "@apollo/client": "^3.7.1",
         "@chakra-ui/react": "^2.5.5",
