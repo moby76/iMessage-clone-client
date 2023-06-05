@@ -5,7 +5,7 @@ import { toast } from "react-hot-toast"
 import { ObjectId } from 'bson' //получим объект ObjectId из пакета bson для формирования id создаваемых сообщений для БД mongoDB
 import MessageOperations from '../../../../graphql/operations/messageOperations'
 import { useMutation } from "@apollo/client"
-import { SendMessageArguments } from "../../../../../../server/src/util/types"
+import { SendMessageArguments } from "../../../../util/types"
 import { MessagesData } from "../../../../util/types";
 
 interface MessageInputProps {

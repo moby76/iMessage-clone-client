@@ -4,7 +4,7 @@ import { Session } from "next-auth";
 import ConversationList from "./ConversationsList-shad";
 import ConversationOperations from "../../../graphql/operations/conversationOperations";
 import { ConversationDeletedData, ConversationsData, ConversationUpdatedData } from "../../../util/types-shad";
-import { ConversationPopulated, ParticipantPopulated } from "../../../../../server/src/util/types-shad";
+import { ConversationPopulated, ParticipantPopulated } from "../../../util/types-shad";
 import { cache, useEffect } from "react";
 import { useRouter } from "next/router";
 import SkeletonLoader from "../../common/SkeletonLoader";
