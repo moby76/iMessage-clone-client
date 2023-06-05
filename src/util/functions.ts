@@ -1,6 +1,6 @@
 // эта функция получает массив участников из сгенерированного типа ParticipantPopulated с бэкенда и преобразует в список разделённый запятой
 
-import { ParticipantPopulated } from "../../../server/src/util/types";
+import { ParticipantPopulated } from "../../src/util/types";
 
 export const formatUsernames = ( participants: Array<ParticipantPopulated>, myUserId: string): string => {//1-й парам. - список участников, 2-й парам. - имя текущего авториз. польз.(меня)
   const usernames = participants
