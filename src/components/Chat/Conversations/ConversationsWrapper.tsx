@@ -7,7 +7,7 @@ import ConversationsList from "./ConversationsList"
 import { gql, useMutation, useQuery, useSubscription } from "@apollo/client"
 import ConversationOperations from "../../../graphql/operations/conversationOperations"
 import { ConversationData, ConversationUpdatedData, ConversationDeletedData } from "../../../util/types"
-import { ConversationPopulated, ParticipantPopulated } from '../../../../../server/src/util/types'
+import { ConversationPopulated, ParticipantPopulated } from '../../../util/types'
 import { cache, useEffect } from "react"
 import { useRouter } from "next/router"
 import SkeletonLoader from "../../common/SkeletonLoader"
