@@ -2,7 +2,9 @@
 
 //TypeScript ничего "не знает" о типах из graphQL по этому нужно прописать для них типы
 //создать тип для данных мутаций или запросов которые будут в запросах/мутациях 
-import { ConversationPopulated, MessagePopulated } from '../../../server/src/util/types'
+// import { ConversationPopulated, MessagePopulated } from '../../../server/src/util/types'
+
+import { Prisma, PrismaClient } from "@prisma/client";
 
 
 //------------SECTION----------- - Пользователи/участники
@@ -91,7 +93,60 @@ export interface MessageSubscriptionData {
     }
 }
 
+//------------SECTION----------- - Создание сгенерированных типов для переиспользования их в коде --------------
 
+// создадим переменную с помощью "сгенерированного типа" Призмы для переиспользования в других частях кода на основе заполнения данных для участников диалога
+export const participantPopulated = Prisma.validator<Prisma.ConversationParticipantInclude>()({
+    user: {// в которое включим все данные поля user --> которое является ссылочным на модель User
+        // и разрешим только id  и имя пользователя
+        select: {// комманда select - выбор включаемых полей с подтверждением логическим true/false
+            id: true,
+            username: true
+        }
+    }
+})
 
+// создадим переменную conversationPopulated с помощью "сгенерированного типа" Призмы для переиспользования в других частях кода на основе заполнения данных для диалогов с помощью компонента Призмы - validator
+export const conversationPopulated = Prisma.validator<Prisma.ConversationInclude>()({//ConversationInclude автоматически-сгенерированный тип данных пакетом Prisma при запуске комманды "npx prisma generate"(❓)
+    participants: {// включим поле participants --> ConversationParticipant[](массив модели/коллекции ConversationParticipant)
+        include: participantPopulated// переменная с заполненными занными участников диалога 
+    },
+    // и id и имя отправителя последнего сообщения
+    latestMessage: {// включим поле latestMessage --> ссылочное на модель Message
+        include: {// 
+            sender: {// поле sender --> ссылочное на модель User
+                // и так-же разрешим только id  и имя пользователя
+                select: {
+                    id: true,
+                    username: true
+                }
+            }
+        }
+    }
+})
 
+// ----------------------------------------------------------------------------------------------------------
+
+//------------SECTION----------- - Conversations(Диалоги) ------------------------
+
+// тип для данных которые будут в диалогах. Должно в точности повторять содержимое переменной conversationPopulated в conversationResolvers.ts
+// с помощью "сгенерированного типа" Призмы - ConversationGetPayload в получим раннее созданный в conversationResolvers.ts тип-переменную conversationPopulated
+export type ConversationPopulated = Prisma.ConversationGetPayload<{ include: typeof conversationPopulated }>
+
+//по аналогичному --^ принципу создадим тип для participantPopulated, что является частью conversationPopulated. Для отдельного переиспользования
+export type ParticipantPopulated = Prisma.ConversationParticipantGetPayload<{ include: typeof participantPopulated }>
+
+//------------SECTION----------- - MessageInclude -----------------------------
+
+export const messagePopulated = Prisma.validator<Prisma.MessageInclude>()({
+    sender: {
+        select: {
+            id: true,
+            username: true
+        }
+    }
+})
+
+//тип полученный на основе сформированного в messageResolvers шаблона messagePopulated
+export type MessagePopulated = Prisma.MessageGetPayload<{ include: typeof messagePopulated }>
 
