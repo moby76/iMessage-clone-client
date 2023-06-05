@@ -7,7 +7,7 @@ import {
   MessagesData,
   MessageSubscriptionData,
   MessagesVariables,
-} from "../../../../util/types-shad";
+} from "../../../../util/types";
 import SkeletonLoader from "../../../common/SkeletonLoader";
 import MessageItem from "./MessageItem";
 
