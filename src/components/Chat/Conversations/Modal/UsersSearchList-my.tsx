@@ -2,7 +2,7 @@
 //
 
 import { Avatar, Button, Flex, Stack, Text } from "@chakra-ui/react";
-import { SearchedUser } from "../../../../util/types-shad";
+import { SearchedUser } from "../../../../util/types";
 
 //назначим типы для пропсов компонента UsersSearchList
 interface UsersSearchListProps {

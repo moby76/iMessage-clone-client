@@ -1,5 +1,5 @@
 import { Flex, Stack, Text } from "@chakra-ui/react";
-import { SearchedUser } from "../../../../util/types-shad";
+import { SearchedUser } from "../../../../util/types";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 
 interface ParticipantsProps {

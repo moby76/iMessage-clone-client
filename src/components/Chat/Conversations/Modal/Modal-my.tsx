@@ -9,7 +9,7 @@ import UserOperations from "../../../../graphql/operations/userOperations"
 import ConversationOperations from "../../../../graphql/operations/conversationOperations"
 import { useLazyQuery, useMutation, useQuery } from "@apollo/client"
 import { CreateConversationData, CreateConversationInput, SearchUsersData, SearchUsersInput, SearchedUser } from "../../../../util/types-shad"
-import UsersSearchList from "./UsersSearchList"
+import UsersSearchList from "./UserSearchList"
 import Participants from "./Participants"
 import { toast } from "react-hot-toast"
 import { useRouter } from "next/router"
@@ -66,7 +66,7 @@ const ConvesationsModal: React.FC<ConvesationsModalProps> = ({ isOpen, onClose, 
 
     // FUNCTION  - функция удаляющая участника из чата. удалить используя фильтр по id с помощью метода js .filter передав в него фильтр текущего
     //Метод filter() создаёт новый массив со всеми элементами, прошедшими проверку, задаваемую в передаваемой функции. https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Array/filter
-    const removePartipiant = (userId: string) => { //параметр userId будет получать аргументом значение из компонента <Participants>
+    const removeParticipant = (userId: string) => { //параметр userId будет получать аргументом значение из компонента <Participants>
         //здесь параметр prev = значению всех элементов типа User уже раннее сформированного функцией addParticipant массива participants(строка 27)
         setParticipants((prev) => prev.filter((p) => p.id !== userId))//p.id можно понимать как User.id.... p - это элемент пересоздаваемого методом .filter массива на основе который оставляет только значения элементов с id(User.id) НЕ равными значению userId.
     }
@@ -129,7 +129,7 @@ const ConvesationsModal: React.FC<ConvesationsModalProps> = ({ isOpen, onClose, 
                         {participants.length !== 0 && (
                             <>
                                 {/* Компонент отображения списка выбранных участников + возможность удалить */}
-                                <Participants participants={participants} removePartipiant={removePartipiant} />
+                                <Participants participants={participants} removeParticipant={removeParticipant} />
                                 {/* Создать кнопку активирующую диалог с добавлением в него выбранных участников */}
                                 <Button bg={"brand.100"} _hover={{ bg: "brand.100" }} _active={{ bg: "whiteAlpha.200" }} width={"100%"} mt={6} onClick={onCreateConversation} isLoading={createConversationLoading}>
                                     Начать общение

@@ -2,7 +2,7 @@
 // tsrsfc
 
 import * as React from 'react';
-import { SearchedUser } from '../../../../util/types-shad';
+import { SearchedUser } from '../../../../util/types';
 import { Flex, Stack, Text } from '@chakra-ui/react';
 import { IoIosCloseCircleOutline } from 'react-icons/io'
 

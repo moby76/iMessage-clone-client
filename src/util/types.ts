@@ -93,6 +93,14 @@ export interface MessageSubscriptionData {
     }
 }
 
+//интерфейс для аргументов сообщений
+export interface SendMessageArguments {
+    id: string
+    body: string
+    conversationId: string
+    senderId: string
+}
+
 //------------SECTION----------- - Создание сгенерированных типов для переиспользования их в коде --------------
 
 // создадим переменную с помощью "сгенерированного типа" Призмы для переиспользования в других частях кода на основе заполнения данных для участников диалога
