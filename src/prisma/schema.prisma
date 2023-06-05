@@ -41,11 +41,13 @@ model Session {
 }
 
 model User {
-    id            String    @id @default(auto()) @map("_id") @db.ObjectId
+    id            String                    @id @default(auto()) @map("_id") @db.ObjectId
     name          String?
-    email         String?   @unique
-    emailVerified DateTime? @map("email_verified")
-    username      String?   @unique
+    email         String?                   @unique
+    emailVerified DateTime?                 @map("email_verified")
+    username      String?                   @unique
+    conversations ConversationParticipant[] //массив диалогов с участием данного пользователя
+    messages      Message[] //массив сообщений созданных пользователем
     image         String?
     accounts      Account[]
     sessions      Session[]
@@ -61,4 +63,44 @@ model VerificationToken {
 
     @@unique([identifier, token])
     @@map("verificationtokens")
+}
+
+// модель коллекции для диалога
+model Conversation {
+    id              String                    @id @default(auto()) @map("_id") @db.ObjectId //идентификатор в БД
+    participants    ConversationParticipant[] //массив участников данного диалога
+    messages        Message[] //сообщения в данном диалоге
+    // последнее сообщение в этом диалоге. ссылка на коллекцию Message. Связь Один-к-одному
+    latestMessageId String?                   @unique //т.к. это поле учавствует в повторяющемся определении-типе ⬇️⬇️⬇️⬇️ Message ⬇️⬇️⬇️⬇️  нужно определить его как уникальное
+    latestMessage   Message?                  @relation(name: "latestConversationMessage", fields: [latestMessageId], references: [id], onUpdate: NoAction, onDelete: NoAction) //name: "latestConversationMessage" - это алиас, он прописывается для избежания дублирования одинаковых полей
+    createdAt       DateTime                  @default(now()) 
+    updatedAt       DateTime                  @updatedAt 
+}
+
+// модель для связи участников диалога по принципу многие-ко-многим. будет являться промежуточным между коллекцией User и Conversation
+model ConversationParticipant {
+    id                   String       @id @default(auto()) @map("_id") @db.ObjectId
+    userId               String
+    user                 User         @relation(fields: [userId], references: [id]) //ссылочное поле для связи с коллекцией User через его id и полем userId этой коллекции
+    conversationId       String       
+    conversation         Conversation @relation(fields: [conversationId], references: [id]) //ссылочное поле для связи с коллекцией Conversation через его id и полем conversayionId этой коллекции
+    //логическое поле определяющее - увидел-ли участник диалога последнее сообщение чата. По нему будет отображаться индикатор сигнализирующий о том что есть новое, непрочитанное, сообщение
+    hasSeenLatestMessage Boolean //будет иметь по умолчанию значение false пока участник не нажмёт на "диалог", после чего оно инвертируется в true
+    createdAt            DateTime     @default(now())
+    updatedAt            DateTime     @updatedAt
+}
+
+// модель коллекции для сообщений. и свяжем эту коллекцию  по принципу много-к-одному с коллекциями: "общение/диалог"(Conversation) и "участник"(User)
+model Message {
+    id             String        @id @default(auto()) @map("_id") @db.ObjectId
+    // сообщение может принадлежать только одному диалогу
+    conversationId String
+    conversation   Conversation  @relation(fields: [conversationId], references: [id]) //ссылочное поле для связи с коллекцией Conversation через его id и полем conversationId этой коллекции
+    // сообщение может принадлежать только одному участнику - отправителю сообщения
+    senderId       String
+    sender         User          @relation(fields: [senderId], references: [id])
+    body           String
+    isLatestIn     Conversation? @relation(name: "latestConversationMessage")
+    createdAt      DateTime      @default(now()) //когда создано сообщение
+    updatedAt      DateTime      @updatedAt //когда обновлено
 }
