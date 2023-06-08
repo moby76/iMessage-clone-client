@@ -17,7 +17,7 @@ import { toast } from "react-hot-toast";
 
 //создание типа IAuthProps 
 interface IAuthProps {
-    session: Session //поле session которое будет являтся расширенным объектом Session библиотеки "next-auth", который может иметь значение null при отсутствии польз. в системе
+    session: Session | null //поле session которое будет являтся расширенным объектом Session библиотеки "next-auth", который может иметь значение null при отсутствии польз. в системе
     reloadSession: () => void //вторым полем будет функция для преиспользования пользователя который находится в сессии из БД 
 }
 
