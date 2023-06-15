@@ -10,7 +10,7 @@ const URI = process.env.NEXT_PUBLIC_SERVER_URI
 
 //STEP-1 Создать http-ссылку
 const httpLink = new HttpLink({
-    uri: `http://${URI}` || `http://localhost:4000` ,
+    uri: `https://${URI}` || `http://localhost:4000` ,
     // uri: process.env.NEXT_PUBLIC_SERVER_URI,
     credentials: 'include' // получение/отправка запросов из любых источников
 })
