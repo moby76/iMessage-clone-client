@@ -12,7 +12,7 @@ const URI = process.env.NEXT_PUBLIC_SERVER_URI
 const httpLink = new HttpLink({
     uri: `https://${URI}` || `http://localhost:4000` ,
     // uri: process.env.NEXT_PUBLIC_SERVER_URI,
-    credentials: 'include' // получение/отправка запросов из любых источников
+    credentials: 'same-origin' // получение/отправка запросов из любых источников
 })
 
 // // если будет производиться загрузка файлов то используем класс createUploadLink из пакета apollo-upload-client
